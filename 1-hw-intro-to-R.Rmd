@@ -1,0 +1,96 @@
+---
+title: "HW 1 - Intro to R"
+author: Nicholas Walker
+date: 09/15/23
+output: html_document
+---
+
+Put your R code and explanations below each question in this markdown file and submit the knitted `html` file to Canvas.
+
+#### President ages
+
+1. Create a vector `ages` containing the age (at inauguration) of the ten most recent Presidents. Using the names function add last names to the values of this vector. Create another vector `year` containing the year at inauguration of these ten Presidents.
+
+1. Find the `mean`, `min`, and `maximum` age of these 10 Presidents.
+
+1. Using logical operations, create a new vector `age_young` with the ages of the Presidents younger than 50.
+
+1. Create a vector `age_after_1975`of the ages of the Presidents inaugurated after 1975.
+
+1. Using the `plot()` function, plot the inauguration `year` against the `age` for these 10 Presidents (x=`age`, y=`ear`). Do you see any pattern in this graph? Please provide your observation in **bold**.
+
+#work
+```{r}
+ages <- c(78,70,47,54,46,64,69,52,61,56)
+names(ages) <- c("Biden","Trump","Obama","Bush","Clinton","Bush","Reagan","Carter","Ford","Nixon")
+year <- c(2021,2017,2009,2001,1993,1989,1981,1977,1974,1969)
+
+mean(ages)
+min(ages)
+max(ages)
+
+age_after_1975 <- ages[ages>1975]
+
+plot(year,ages)
+```
+**I've noticed that majority of presidents start over 55. Other than that it seems pretty random**
+
+#### Writing hand and gender
+
+For a class of 20 students, the following vectors store their gender (`F` or `M`) and writing hand (`L` or `R`). 
+
+```{r}
+gender <- c("M","F","F","M","F","M","F","F","M","F","M","F","M","F","F","F","M","F","F","F")
+hand <- c("R","R","L","R","R","R","R","L","R","R","R","R","R","R","L","L","L","R","R","R")
+```
+
+1. Using `table()` fucntion, construct and display a frequency table of writing hand. Type `?table` in console and press `Enter` to see how `table()` works.
+
+1. Using `barplot()` function, construct a bar plot of these writing hand frequencies. Type `?barplot()` in console and press `Enter` to see how `barplot()` works.
+
+1. Using logical operations, create a vector of the writing hand of the women and another vector of the writing hand the men.
+
+#work
+```{r}
+table(gender, hand)
+barplot(table(gender, hand))
+
+names(hand) <- c(gender)
+
+wHand_Women <- hand[names(hand)=='F']
+wHand_Men <-  hand[names(hand)=='M']
+
+```
+
+#### Functions and vector operations
+
+1. Write a function called `from_F_C()` which takes the temperature value in degrees Fahrenheit as an input and outputs its corresponding value in degrees Celsius. Test your function for 32F and 95F. 
+
+2. It is well known that $\sin(1)$ (the value of sine function at 1)  can be approximated by the sum
+\[
+1 - \frac{1}{3!} + \frac{1}{5!} - \frac{1}{7!} + … + (-1)^n\frac{1}{(2n+1)!}
+\]
+where $n$ is a non-negative integer and $k! = 1 \cdot 2\cdots k$ ($k$ factorial). Let n be in the range 0,...,7. Using the `for` loop and the conditional `if`, find the smallest value of $n$ such that
+\[
+|Error| = |1 - \frac{1}{3!} + \frac{1}{5!} - \frac{1}{7!} + … + (-1)^n\frac{1}{(2n+1)!} - \sin(1)| < 0.0001
+\]
+When the smallest such $n$ is found, print it on the screen and use `break` command to exit the `for` loop. Also, using this $n$, print your approximation of the value of $\sin(1)$. 
+_Note_: In R, $\sin(1)$ is `sin(1)` and $k!$ is `factorial(k)`. 
+
+#work
+```{r}
+from_F_C <- function(temp){
+  temp_C <- (temp-32)*5/9
+  return(temp_C)
+}
+
+print(from_F_C(32))
+print(from_F_C(95))
+
+for(x in 0:7){
+  if()
+}
+
+
+```
+

@@ -1,0 +1,132 @@
+---
+title: "HW 2 - ggplot2"
+author: "Put your name here"
+date: "Put the date here"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      warning = FALSE,
+                      message = FALSE)
+```
+
+Provide your answers below each question in this markdown file and submit the knitted `html` file to Canvas. Put the text of your answers/comments in **bold**. 
+
+#### Part I 
+
+In part I, you will work with the `mpg` dataset from `ggplot2`.
+
+1. Produce a side-by-side barplot of counts of `cyl` for each level of `drv`. Be sure to treat `cyl` as a factor.
+
+2. Run the code below and explain what it is does. Type in the console `?geom_smooth` to learn about `geom_smooth()` function and in particular what `method='lm'` means.
+
+```{r}
+library(tidyverse)
+ggplot(data = mpg,mapping = aes(x = displ, y = hwy, color = drv)) +
+geom_point() +
+geom_smooth(method='lm',se = FALSE) # 'lm' stands for 'linear model'
+```
+**When I ran the code it produced a graph. It was a scatter plot with a smoothed avg line. **
+
+
+3. Write the R code to generate the plot given in the file `2-hw-plot.png` posted on Canvas.
+```{r}
+library(ggplot2)
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, size = cyl, color = cyl))
+
+```
+
+
+
+#### Part II
+
+For part II, use the `read_csv()` function from `tidyverse` package to import data in `cereal.csv` posted on Canvas. Save the dataset as `cereals`. 
+
+4. Using `geom_boxplot()`, produce boxplots of `Calories` for each level of `Fat`. Make sure to treat `Fat` as a factor (or categorical) variable using `factor()` function. What pattern do you observe? How do explain the boxplot for `Fat=5`.
+**There is only one cereal with this fat to calories ratio at Fat=5**
+
+5. Using `geom_bar()` function, compare the levels of fat in cereals among different manufacturers. Which manufacturer produces most of the zero fat cereals?
+**American home food producer**
+
+6. Using `geom_histogram()` function, construct a histogram of `Calories`. Choose an appropriate value for the `binwidth` argument to make the histogram look nice.
+
+7. Using `geom_histogram()` function, compare the amounts of calories among different manufacturers (map `Manufacturer` to the `fill` argument within `aes()`). Which manufacturer produces most of the low calorie cereals? Based on this plot and the one produced in problem 5, which manufacturer produces most of the zero fat and high calorie cereals.
+**Kellogg has the most cereals in the low calorie area. Although Quaker Oats has most of the lowest calorie cereal. Based of this and the other graph, Kellogg makes lowest fat highest calorie cereals.**
+
+8. Use `facet_wrap()` to construct histograms of `Calories` for each `Manufacturer`. Which manufacturer produces the widest range of cereals in terms of calorie? 
+
+9. Produce a scatterplot of `Carbs` (map to `y`) against `Dietary Fiber` (map to `x`) coloring points based on the amounts of sugar (map `Sugars` to the `color` argument within `aes()`). What patterns do you see?
+**Highest carb cereals have the least dietary fiber. Sugar levels seem to get lower the more carbs there are.**
+
+```{r}
+library(tidyverse)
+
+# load cereal data
+cereals <- read_csv("cereal.csv")
+
+# produce boxplot
+cereals$FatF <- factor(cereals$Fat)
+
+ggplot(data = cereals)+
+  geom_boxplot(mapping = aes(x = FatF, y = Calories))
+
+# compare levels of fat
+ggplot(data = cereals)+
+  geom_bar(stat = "identity", mapping = aes(x = Manufacturer, y = Fat))
+
+# construct histogram of calories
+ggplot(data = cereals)+
+  geom_histogram(mapping = aes(x=Calories), binwidth = 5)
+
+# compare calories
+ggplot(data = cereals)+
+  geom_histogram(mapping = aes(x = Calories, fill = Manufacturer))
+
+# histogram of calories facet_wrap()
+ggplot(data = cereals)+
+  geom_histogram(mapping = aes(x=Calories), binwidth = 5)+
+  facet_wrap(vars(Manufacturer))
+  
+# scatter plot of carbs
+ggplot(data = cereals)+
+  geom_point(mapping = aes(x = `Dietary Fiber`, y = Carbs, color = Sugars))
+
+
+```
+
+
+```{r}
+# Bonus Binary search function
+sortedArr <- c(1,5,7,23,28,30,66,99,101)
+
+binary_search <- function(sortedArr, key){
+  low <- 1
+  high <- length(sortedArr) 
+  while (low <= high) {
+    # get mid index, round() keeps the solution an int
+    mid <- as.integer(round((low+high)/2))
+    # check if key is found
+    if(sortedArr[mid] == key){
+      return(mid)
+    }else if(sortedArr[mid] < key){
+      low <- mid + 1
+    }else{
+      high <- mid - 1
+    }
+  }
+  return(0)
+}
+
+test1 <- binary_search(sortedArr, 23)
+test2 <- binary_search(sortedArr, 20)
+
+# 0 if not found
+print("Returns items index, zero if not found")
+print(test1)
+print(test2)
+
+```
+
